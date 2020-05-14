@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Погода</string>
+    <string name="city">Москва</string>
+    <string name="wind">&#xf050; 10 м/c</string>
+    <string name="data">1 Июня 2020</string>
+</resources>
