@@ -9,31 +9,26 @@
 
     <ImageView
         android:id="@+id/iм_weather"
-        android:layout_width="201dp"
-        android:layout_height="178dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="204dp"
+        android:layout_height="204dp"
+        android:layout_marginStart="192dp"
+        android:layout_marginBottom="136dp"
         android:contentDescription="@string/weather"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_time"
         app:srcCompat="@drawable/ic_wi_day_lightning" />
 
     <TableLayout
         android:id="@+id/tableLayout"
-        android:layout_width="365dp"
-        android:layout_height="247dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
+        android:layout_width="277dp"
+        android:layout_height="282dp"
         android:background="@color/secondaryColor"
         android:shrinkColumns="*"
         android:stretchColumns="*"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iм_weather"
-        app:layout_constraintVertical_bias="0">
+        app:layout_constraintStart_toEndOf="@+id/iм_weather"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TableRow
             android:layout_width="match_parent"
@@ -170,13 +165,14 @@
         android:id="@+id/tv_temperature"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:text="@string/temperature"
         android:textColor="@color/secondaryTextColor"
         android:textSize="60sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/iм_weather"
-        app:layout_constraintTop_toTopOf="@+id/iм_weather" />
+        app:layout_constraintEnd_toEndOf="@+id/tv_time"
+        app:layout_constraintHorizontal_bias="0.55"
+        app:layout_constraintStart_toStartOf="@+id/tv_time"
+        app:layout_constraintTop_toBottomOf="@+id/tv_time" />
 
     <TextView
         android:id="@+id/tv_time"
@@ -185,23 +181,25 @@
         android:text="@string/time"
         android:textColor="@color/primaryTextColor"
         android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tv_data"
+        app:layout_constraintStart_toStartOf="@+id/tv_data"
         app:layout_constraintTop_toBottomOf="@+id/tv_data" />
 
     <TextView
         android:id="@+id/tv_wind"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/weathericons"
         android:text="@string/wind"
         android:textColor="@color/primaryTextColor"
         android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/tv_humidity"
         app:layout_constraintStart_toStartOf="@+id/tv_temperature"
-        app:layout_constraintTop_toBottomOf="@+id/tv_temperature" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_temperature"
+        app:layout_constraintVertical_bias="0.28" />
 
     <TextView
         android:id="@+id/tv_humidity"
@@ -221,12 +219,13 @@
         android:id="@+id/tv_city"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="40dp"
         android:includeFontPadding="false"
         android:text="@string/city"
         android:textColor="@color/colorAccent"
         android:textSize="32sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/iм_weather"
+        app:layout_constraintHorizontal_bias="0.483"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -234,12 +233,12 @@
         android:id="@+id/tv_data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:text="@string/data"
         android:textColor="@color/primaryTextColor"
         android:textSize="25sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tv_city"
+        app:layout_constraintStart_toStartOf="@+id/tv_city"
         app:layout_constraintTop_toBottomOf="@+id/tv_city" />
 
 
