@@ -2,6 +2,24 @@
 <resources>
     <string name="app_name">Погода</string>
     <string name="city">Москва</string>
-    <string name="wind">&#xf050; 10 м/c</string>
+    <string name="wind_sped">&#xf050; 10 м/c</string>
     <string name="data">1 Июня 2020</string>
+    <string name="Button_select">Выбрать</string>
+    <string name="input_city">Ведите город</string>
+    <string name="wind">Ветер</string>
+    <string name="pressure">Давление</string>
+    <string name="Theme">Тема:</string>
+    <string name="_24_hour_format">24 - часовой формат</string>
+    <string name="use_gps">Использовать GPS</string>
+    <string name="send_statistics">Отправлять статистику</string>
+    <string-array name="city">
+        <item>Москва</item>
+        <item>Самара</item>
+        <item>Вологда</item>
+        <item>Саратов</item>
+    </string-array>
+    <string-array name="theme">
+        <item>Темная</item>
+        <item>Светлая</item>
+    </string-array>
 </resources>
