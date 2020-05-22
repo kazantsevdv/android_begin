@@ -20,6 +20,7 @@
                 android:text="@string/Theme" />
 
             <Spinner
+                android:id="@+id/sp_theme"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -41,6 +42,7 @@
                 android:text="@string/_24_hour_format" />
 
             <CheckBox
+                android:id="@+id/cb_24hour"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -59,6 +61,7 @@
                 android:text="@string/use_gps" />
 
             <CheckBox
+                android:id="@+id/cb_gps"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -76,6 +79,7 @@
                 android:layout_weight="1"
                 android:text="@string/send_statistics" />
             <CheckBox
+                android:id="@+id/cb_stat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
