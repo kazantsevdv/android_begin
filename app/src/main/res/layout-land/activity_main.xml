@@ -192,7 +192,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/weathericons"
-        android:text="@string/wind"
+        android:text="@string/wind_sped"
         android:textColor="@color/primaryTextColor"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"

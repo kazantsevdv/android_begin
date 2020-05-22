@@ -1,11 +1,12 @@
 <resources>
     <string name="app_name">Weather</string>
     <string name="wi_windy" translatable="false">&#xf021;</string>
-    <string name="wind">&#xf050; 10 m/s</string>
+    <string name="wind_sped">&#xf050; 10 m/s</string>
+    <string name="wind">Wind</string>
     <string name="barometer" translatable="false">&#xf079;</string>
     <string name="humidity" translatable="false">30 &#xf07a;</string>
     <string name="data">1 June 2020</string>
-    <string name="city">" Moscow"</string>
+    <string name="city">"Moscow"</string>
     <string name="temperature" translatable="false">10 ℃</string>
     <string name="time" translatable="false">17:05</string>
     <string name="weather" translatable="false">weather</string>
@@ -17,5 +18,21 @@
     <string name="t2" translatable="false">5 ℃</string>
     <string name="t3" translatable="false">15 ℃</string>
     <string name="t4" translatable="false">20 ℃</string>
-
+    <string name="Button_select">Select</string>
+    <string name="input_city">input city</string>
+    <string name="pressure">Pressure</string>
+    <string name="Theme">Theme:</string>
+    <string name="_24_hour_format">24 - hour format</string>
+    <string name="use_gps">Use GPS</string>
+    <string name="send_statistics">Send statistics</string>
+    <string-array name="city">
+        <item>Moscow</item>
+        <item>Samara</item>
+        <item>Vologda</item>
+        <item>Saratov</item>
+    </string-array>
+    <string-array name="theme">
+        <item>dark</item>
+        <item>light</item>
+    </string-array>
 </resources>
