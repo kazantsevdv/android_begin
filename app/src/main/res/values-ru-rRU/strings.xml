@@ -12,6 +12,7 @@
     <string name="_24_hour_format">24 - часовой формат</string>
     <string name="use_gps">Использовать GPS</string>
     <string name="send_statistics">Отправлять статистику</string>
+    <string name="No_city_set">No city set</string>
     <string-array name="city">
         <item>Москва</item>
         <item>Самара</item>
@@ -22,4 +23,5 @@
         <item>Темная</item>
         <item>Светлая</item>
     </string-array>
+    <string name="humidity">Влажность</string>
 </resources>
