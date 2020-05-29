@@ -5,17 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primaryDarkColor"
-    tools:context=".MainActivity">
+    tools:context=".CitySelectionActivity">
 
     <ImageView
         android:id="@+id/iм_weather"
         android:layout_width="204dp"
         android:layout_height="204dp"
-        android:layout_marginStart="192dp"
-        android:layout_marginBottom="136dp"
+        android:layout_marginStart="184dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="96dp"
         android:contentDescription="@string/weather"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bt_www"
         app:srcCompat="@drawable/ic_wi_day_lightning" />
 
     <TableLayout
@@ -207,7 +209,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:fontFamily="@font/weathericons"
-        android:text="@string/humidity"
+        android:text="@string/humidity_val"
         android:textColor="@color/primaryTextColor"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/tv_wind"
@@ -241,5 +243,14 @@
         app:layout_constraintStart_toStartOf="@+id/tv_city"
         app:layout_constraintTop_toBottomOf="@+id/tv_city" />
 
+    <Button
+        android:id="@+id/bt_www"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/www"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_city"
+        app:layout_constraintEnd_toStartOf="@+id/tableLayout"
+        app:layout_constraintStart_toEndOf="@+id/tv_city"
+        app:layout_constraintTop_toTopOf="@+id/tv_city" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

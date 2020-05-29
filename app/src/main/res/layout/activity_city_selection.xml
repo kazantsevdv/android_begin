@@ -14,6 +14,7 @@
         android:inputType="textPersonName" />
 
     <ListView
+        android:id="@+id/lw_city"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -27,11 +28,11 @@
         android:text="@string/wind" />
 
     <Switch
-        android:id="@+id/sw_pressure"
+        android:id="@+id/sw_humidity"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
-        android:text="@string/pressure" />
+        android:text="@string/humidity" />
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"

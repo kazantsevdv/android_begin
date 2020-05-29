@@ -4,7 +4,8 @@
     <string name="wind_sped">&#xf050; 10 m/s</string>
     <string name="wind">Wind</string>
     <string name="barometer" translatable="false">&#xf079;</string>
-    <string name="humidity" translatable="false">30 &#xf07a;</string>
+    <string name="humidity_val" translatable="false">30 &#xf07a;</string>
+    <string name="humidity" >30 &#xf07a;</string>
     <string name="data">1 June 2020</string>
     <string name="city">"Moscow"</string>
     <string name="temperature" translatable="false">10 ℃</string>
@@ -25,6 +26,8 @@
     <string name="_24_hour_format">24 - hour format</string>
     <string name="use_gps">Use GPS</string>
     <string name="send_statistics">Send statistics</string>
+    <string name="No_city_set">No city set</string>
+    <string name="www" translatable="false">WWW</string>
     <string-array name="city">
         <item>Moscow</item>
         <item>Samara</item>
