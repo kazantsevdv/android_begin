@@ -2,7 +2,6 @@ package com.example.android_begin.activity;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,10 +14,7 @@ import com.example.android_begin.fragments.WeatherFragment;
 import java.util.Objects;
 
 public class WeatherActivity extends AppCompatActivity {
-    TextView city;
-    TextView wind;
-    TextView humidity;
-    private String cityName;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
