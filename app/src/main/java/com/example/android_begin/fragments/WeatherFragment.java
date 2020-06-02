@@ -14,6 +14,8 @@ import com.example.android_begin.Container;
 import com.example.android_begin.Observer;
 import com.example.android_begin.R;
 
+import java.util.Objects;
+
 public class WeatherFragment extends Fragment implements Observer {
 
     public static final String CONTAINER = "container";
@@ -38,7 +40,7 @@ public class WeatherFragment extends Fragment implements Observer {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        container = (Container) getArguments().getSerializable(WeatherFragment.CONTAINER);
+        container = (Container) Objects.requireNonNull(getArguments()).getSerializable(WeatherFragment.CONTAINER);
     }
 
     @Override
@@ -52,9 +54,12 @@ public class WeatherFragment extends Fragment implements Observer {
         wind = view.findViewById(R.id.tv_wind);
         humidity = view.findViewById(R.id.tv_humidity);
         TextView temperature = view.findViewById(R.id.tv_temperature);
-        temperature.setText(new StringBuilder().append(container.data.getTemperature()).append("℃").toString());
-        humidity.setText(new StringBuilder().append(container.data.getHumidity()).append(" ").append(getString(R.string.humidity_val)).toString());
-        wind.setText(new StringBuilder().append(getString(R.string.wind_sped)).append(" ").append(container.data.getWind()).append(" m/c").toString());
+        String strTemperature = container.data.getTemperature() + "℃";
+        temperature.setText(strTemperature);
+        String strHumidity = container.data.getHumidity() + " " + getString(R.string.humidity_val);
+        humidity.setText(strHumidity);
+        String strWind = getString(R.string.wind_sped) + " " + container.data.getWind() + " m/c";
+        wind.setText(strWind);
         city.setText(container.cityName);
         wind.setVisibility(container.showWind ? View.VISIBLE : View.INVISIBLE);
         humidity.setVisibility(container.showHumidity ? View.VISIBLE : View.INVISIBLE);
