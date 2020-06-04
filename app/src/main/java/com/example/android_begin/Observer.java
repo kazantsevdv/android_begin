@@ -4,5 +4,4 @@ public interface Observer {
     void updateWind(boolean show);
 
     void updateHumidity(boolean show);
-
 }

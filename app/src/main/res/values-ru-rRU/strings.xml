@@ -27,4 +27,5 @@
         <item>Светлая</item>
     </string-array>
     <string name="humidity">Влажность</string>
+    <string name="new_city">new city</string>
 </resources>
