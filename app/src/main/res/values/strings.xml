@@ -28,6 +28,9 @@
     <string name="send_statistics">Send statistics</string>
     <string name="No_city_set">No city set</string>
     <string name="www" translatable="false">WWW</string>
+    <string name="hist" translatable="false">Hist</string>
+    <string name="add" translatable="false">Add</string>
+    <string name="new_city">new city</string>
 
     <string-array name="city">
         <item>Moscow</item>

@@ -7,43 +7,42 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
-import android.widget.ListView;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.android_begin.CityAdapter;
 import com.example.android_begin.Container;
+import com.example.android_begin.DataRepo;
 import com.example.android_begin.Publisher;
 import com.example.android_begin.PublisherGetter;
 import com.example.android_begin.R;
-import com.example.android_begin.WeatherData;
 import com.example.android_begin.activity.WeatherActivity;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 
 public class CitySelectionFragment extends Fragment {
     public static final String CURRENT_CITY = "CurrentCity";
     public static final String IS_SHOW_HUMIDITY = "isShowHumidity";
     public static final String IS_SHOW_WIND = "isShowWind";
     public static final String CONTAINER = "container";
-    private static List<WeatherData> weatherData = new ArrayList<>();
-    private ListView listCity;
+    private RecyclerView rvCity;
     private int currentPosition = 0;
     private boolean isShowHumidity = false;
     private boolean isShowWind = false;
     private boolean isExistWeather;
-    private String[] listCityResources;
     private Publisher publisher;
     private WeatherFragment detail;
+    private CityAdapter cityAdapter;
 
     @Nullable
     @Override
@@ -55,22 +54,18 @@ public class CitySelectionFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initViews(view);
-        initList();
+        initRecyclerView();
     }
 
-    private void initList() {
-        listCityResources = getResources().getStringArray(R.array.city);
-        Random r = new Random();
-        for (int i = 0; i < listCityResources.length; i++) {
-            weatherData.add(new WeatherData(r.nextInt(50), r.nextInt(20), r.nextInt(50)));
-        }
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(Objects.requireNonNull(getActivity()), android.R.layout.simple_list_item_activated_1, listCityResources);
-        listCity.setAdapter(adapter);
-        listCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    private void initRecyclerView() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        rvCity.setLayoutManager(layoutManager);
+        cityAdapter = new CityAdapter(DataRepo.getWeather());
+        rvCity.setAdapter(cityAdapter);
+        cityAdapter.SetOnItemClickListener(new CityAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                currentPosition = i;
+            public void onItemClick(View view, int position) {
+                currentPosition = position;
                 showWeather();
             }
         });
@@ -100,8 +95,21 @@ public class CitySelectionFragment extends Fragment {
     }
 
     private void initViews(View view) {
-        listCity = view.findViewById(R.id.lw_city);
+        rvCity = view.findViewById(R.id.rv_city);
         Switch wind = view.findViewById(R.id.sw_wind);
+        final EditText edNewCity = view.findViewById(R.id.et_city);
+        ImageButton ibAddCity = view.findViewById(R.id.ib_addcity);
+        ibAddCity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String s = edNewCity.getText().toString();
+                if (s.equals("")) {
+                    Toast.makeText(getContext(), "no city", Toast.LENGTH_SHORT).show();
+                } else {
+                    cityAdapter.notifyItemInserted(DataRepo.addCity(s));
+                }
+            }
+        });
         wind.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -132,7 +140,6 @@ public class CitySelectionFragment extends Fragment {
             currentPosition = savedInstanceState.getInt(CURRENT_CITY, 0);
             isShowHumidity = savedInstanceState.getBoolean(IS_SHOW_HUMIDITY, false);
             isShowWind = savedInstanceState.getBoolean(IS_SHOW_WIND, false);
-            listCity.setSelection(currentPosition);
         }
         if (isExistWeather) {
             showWeather();
@@ -149,10 +156,11 @@ public class CitySelectionFragment extends Fragment {
 
     private Container getContainer() {
         Container container = new Container();
-        container.cityName = listCityResources[currentPosition];
+        container.id = currentPosition;
+        container.cityName = DataRepo.getWeather().get(currentPosition).getCityName();
         container.showHumidity = isShowHumidity;
         container.showWind = isShowWind;
-        container.data = weatherData.get(currentPosition);
+        container.data = DataRepo.getWeather().get(currentPosition);
         return container;
     }
 
