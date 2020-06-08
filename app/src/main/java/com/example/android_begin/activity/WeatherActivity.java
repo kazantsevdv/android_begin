@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 
-import com.example.android_begin.BaseActyvity;
 import com.example.android_begin.Container;
 import com.example.android_begin.R;
 import com.example.android_begin.fragments.CitySelectionFragment;

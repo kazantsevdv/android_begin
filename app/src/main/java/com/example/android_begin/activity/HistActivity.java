@@ -5,7 +5,6 @@ import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.android_begin.BaseActyvity;
 import com.example.android_begin.DataRepo;
 import com.example.android_begin.R;
 import com.example.android_begin.adapter.HistAdapter;

@@ -1,9 +1,12 @@
-package com.example.android_begin;
+package com.example.android_begin.activity;
 
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.android_begin.R;
+import com.example.android_begin.ShPref;
 
 public abstract class BaseActyvity extends AppCompatActivity {
     @Override
