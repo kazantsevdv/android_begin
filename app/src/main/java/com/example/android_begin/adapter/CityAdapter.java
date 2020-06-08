@@ -1,4 +1,4 @@
-package com.example.android_begin;
+package com.example.android_begin.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +8,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.android_begin.R;
+import com.example.android_begin.WeatherData;
 
 import java.util.List;
 
