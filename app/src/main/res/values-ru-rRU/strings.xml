@@ -28,4 +28,11 @@
     </string-array>
     <string name="humidity">Влажность</string>
     <string name="new_city">new city</string>
+    <string name="hist_">История…</string>
+    <string name="add">Добавить</string>
+    <string name="city_add">Город добавлен</string>
+    <string name="Cancel">Отменить</string>
+    <string name="title_home">Главная</string>
+    <string name="titl_settings">Настройки</string>
+    <string name="title_about">О программе</string>
 </resources>

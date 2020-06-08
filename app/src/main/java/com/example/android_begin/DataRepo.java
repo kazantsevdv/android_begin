@@ -56,4 +56,11 @@ public class DataRepo {
         weatherHist.put(key, cityHist());
         return key;
     }
+
+    public static int deleteCityLast() {
+        int id = weatherData.size() - 1;
+        weatherData.remove(id);
+        weatherHist.remove(id);
+        return id;
+    }
 }

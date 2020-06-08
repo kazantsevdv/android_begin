@@ -7,11 +7,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.Switch;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,13 +15,14 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.android_begin.CityAdapter;
+import com.example.android_begin.CityAddDialog;
 import com.example.android_begin.Container;
 import com.example.android_begin.DataRepo;
-import com.example.android_begin.Publisher;
-import com.example.android_begin.PublisherGetter;
 import com.example.android_begin.R;
 import com.example.android_begin.activity.WeatherActivity;
+import com.example.android_begin.adapter.CityAdapter;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Objects;
 
@@ -40,9 +36,8 @@ public class CitySelectionFragment extends Fragment {
     private boolean isShowHumidity = false;
     private boolean isShowWind = false;
     private boolean isExistWeather;
-    private Publisher publisher;
-    private WeatherFragment detail;
     private CityAdapter cityAdapter;
+    private View view;
 
     @Nullable
     @Override
@@ -53,6 +48,7 @@ public class CitySelectionFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        this.view = view;
         initViews(view);
         initRecyclerView();
     }
@@ -74,19 +70,16 @@ public class CitySelectionFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        if (detail != null)
-            publisher.unsubscribe(detail);
+
     }
 
     private void showWeather() {
         if (isExistWeather) {
-            if (detail != null)
-                publisher.unsubscribe(detail);
-            detail = WeatherFragment.newInstance(getContainer());
+
+            WeatherFragment detail = WeatherFragment.newInstance(getContainer());
             FragmentTransaction ft = Objects.requireNonNull(getFragmentManager()).beginTransaction();
             ft.replace(R.id.weather_detail, detail);  // замена фрагмента
             ft.commit();
-            publisher.subscribe(detail);
         } else {
             Intent intent = new Intent(getActivity(), WeatherActivity.class);
             intent.putExtra(CONTAINER, getContainer());
@@ -96,39 +89,15 @@ public class CitySelectionFragment extends Fragment {
 
     private void initViews(View view) {
         rvCity = view.findViewById(R.id.rv_city);
-        Switch wind = view.findViewById(R.id.sw_wind);
-        final EditText edNewCity = view.findViewById(R.id.et_city);
-        ImageButton ibAddCity = view.findViewById(R.id.ib_addcity);
-        ibAddCity.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton fab = view.findViewById(R.id.fab_add_city);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String s = edNewCity.getText().toString();
-                if (s.equals("")) {
-                    Toast.makeText(getContext(), "no city", Toast.LENGTH_SHORT).show();
-                } else {
-                    cityAdapter.notifyItemInserted(DataRepo.addCity(s));
-                }
+                CityAddDialog dialog = new CityAddDialog();
+                dialog.show(Objects.requireNonNull(getFragmentManager()), "Диалог");
             }
         });
-        wind.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                isShowWind = isChecked;
-                if (isExistWeather) {
-                    publisher.notifyWind(isChecked);
-                }
-            }
-        });
-        Switch humidity = view.findViewById(R.id.sw_humidity);
-        humidity.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                isShowHumidity = isChecked;
-                if (isExistWeather) {
-                    publisher.notifyHum(isChecked);
-                }
-            }
-        });
+
     }
 
     @Override
@@ -165,8 +134,23 @@ public class CitySelectionFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        publisher = ((PublisherGetter) context).getPublisher();
+
     }
+
+    public void AddCity(String text) {
+
+        cityAdapter.notifyItemInserted(DataRepo.addCity(text));
+        Snackbar.make(view, R.string.city_add, Snackbar.LENGTH_LONG)
+                .setAction(R.string.Cancel, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        cityAdapter.notifyItemRemoved(DataRepo.deleteCityLast());
+                    }
+                }).show();
+    }
+
 }
+
+

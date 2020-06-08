@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.example.android_begin.fragments.CitySelectionFragment"
+        android:label="CitySelectionFragment"
+        tools:layout="@layout/fr_city_selection" />
+    <fragment
+        android:id="@+id/navigation_info"
+        android:name="com.example.android_begin.fragments.InfoFragment"
+        android:label="InfoFragment"
+        tools:layout="@layout/fr_info" />
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="com.example.android_begin.fragments.SettingFragment"
+        android:label="SettingFragment"
+        tools:layout="@layout/fr_setting" />
+</navigation>

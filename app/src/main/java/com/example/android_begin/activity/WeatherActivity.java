@@ -4,7 +4,6 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.android_begin.Container;
 import com.example.android_begin.R;
@@ -13,7 +12,7 @@ import com.example.android_begin.fragments.WeatherFragment;
 
 import java.util.Objects;
 
-public class WeatherActivity extends AppCompatActivity {
+public class WeatherActivity extends BaseActyvity {
 
 
     @Override
