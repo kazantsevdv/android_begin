@@ -1,66 +1,68 @@
 package com.example.android_begin;
 
+import com.example.android_begin.model.WeatherRequest;
+import com.google.gson.Gson;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 public class DataRepo {
-    static String[] cityArray = {"Москва", "Самара", "Вологда", "Саратов", "Новосибирск", "Омск", "Екатеринбург",};
+    private static final String OPEN_WEATHER_API_KEY = "762ee61f52313fbd10a4eb54ae4d4de2";
+    private static final String OPEN_WEATHER_API_URL =
+            "https://api.openweathermap.org/data/2.5/weather?q=%s&units=metric";
+    private static final String KEY = "x-api-key";
+    static String[] cityArray = {"Moscow", "Samara", "Vologda", "Saratov", "Omsk"};
+
 
     private static List<WeatherData> weatherData;
-    private static Map<Integer, List<WeatherHist>> weatherHist;
 
     static {
         weatherData = new ArrayList<>();
-
-        Random r = new Random();
         for (String listCity : cityArray) {
-            weatherData.add(new WeatherData(listCity, r.nextInt(50), r.nextInt(20), r.nextInt(50)));
-        }
-        weatherHist = new HashMap<>();
-        for (int i = 0; i < cityArray.length; i++) {
-            weatherHist.put(i, cityHist());
+            weatherData.add(new WeatherData(listCity));
         }
     }
 
-    static List<WeatherHist> cityHist() {
-        Random r = new Random();
-        long timestamp = System.currentTimeMillis();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(timestamp);
-        List<WeatherHist> weatherHists = new ArrayList<>();
-        for (int j = 1; j < 14; j++) {
-            calendar.setTimeInMillis(timestamp);
-            calendar.add(Calendar.DAY_OF_MONTH, -j);
-            String data = calendar.get(Calendar.DAY_OF_MONTH) + "." + calendar.get(Calendar.MONTH) + "." + calendar.get(Calendar.YEAR);
-            weatherHists.add(new WeatherHist(data, r.nextInt(50)));
-        }
-        return weatherHists;
-    }
 
     public static List<WeatherData> getWeather() {
         return weatherData;
     }
 
-    public static List<WeatherHist> getWeatherHist(int pos) {
-        return weatherHist.get(pos);
-    }
 
     public static int addCity(String name) {
         Random r = new Random();
-        weatherData.add(new WeatherData(name, r.nextInt(50), r.nextInt(20), r.nextInt(50)));
-        int key = weatherData.size() - 1;
-        weatherHist.put(key, cityHist());
-        return key;
+        weatherData.add(new WeatherData(name));
+        return weatherData.size() - 1;
     }
 
     public static int deleteCityLast() {
         int id = weatherData.size() - 1;
         weatherData.remove(id);
-        weatherHist.remove(id);
         return id;
+    }
+
+    public static WeatherRequest getWeatherData(String city) {
+        try {
+            URL url = new URL(String.format(OPEN_WEATHER_API_URL, city));
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.addRequestProperty(KEY, OPEN_WEATHER_API_KEY);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            StringBuilder rawData = new StringBuilder(1024);
+            String tempVariable;
+            while ((tempVariable = reader.readLine()) != null) {
+                rawData.append(tempVariable).append("\n");
+            }
+            reader.close();
+            Gson gson = new Gson();
+            return gson.fromJson(rawData.toString(), WeatherRequest.class);
+        } catch (Exception exc) {
+            exc.printStackTrace();
+            return null;
+        }
     }
 }

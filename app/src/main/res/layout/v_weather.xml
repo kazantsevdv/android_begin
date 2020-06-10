@@ -1,29 +1,30 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/primaryDarkColor">
+    android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/iм_weather"
+    <TextView
+        android:id="@+id/weather_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/weathericons"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="@dimen/icon_font_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_city"
-        style="@style/weather_img"
-        android:contentDescription="@string/todo"
-        app:srcCompat="@drawable/ic_wi_day_lightning" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_city" />
+
 
     <TextView
         android:id="@+id/tv_temperature"
         style="@style/weather_temper"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@+id/iм_weather"
-        app:layout_constraintHorizontal_bias="0.492"
-        app:layout_constraintStart_toStartOf="@+id/iм_weather"
-        app:layout_constraintTop_toBottomOf="@+id/iм_weather"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/weather_icon"
         tools:text="@string/temperature" />
 
     <TextView
@@ -64,18 +65,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.button.MaterialButton
-        style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
-        android:id="@+id/ib_hist"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="29dp"
-        android:text="@string/hist_"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_temperature"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tv_temperature"
-        app:layout_constraintTop_toBottomOf="@+id/iм_weather" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
