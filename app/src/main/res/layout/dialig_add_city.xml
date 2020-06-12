@@ -13,12 +13,17 @@
             android:id="@+id/ti_new_city"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/new_city" />
+            android:hint="@string/new_city"
+            android:inputType="text"
+            android:maxLength="30"
+            android:maxLines="1"
+            android:textSize="16sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/bt_add"
+        android:layout_gravity=""
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add"

@@ -1,6 +1,5 @@
 package com.example.android_begin.fragments;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -24,17 +23,11 @@ import com.example.android_begin.adapter.CityAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.util.Objects;
-
 public class CitySelectionFragment extends Fragment {
-    public static final String CURRENT_CITY = "CurrentCity";
-    public static final String IS_SHOW_HUMIDITY = "isShowHumidity";
-    public static final String IS_SHOW_WIND = "isShowWind";
+
     public static final String CONTAINER = "container";
     private RecyclerView rvCity;
     private int currentPosition = 0;
-    private boolean isShowHumidity = false;
-    private boolean isShowWind = false;
     private boolean isExistWeather;
     private CityAdapter cityAdapter;
     private View view;
@@ -42,7 +35,7 @@ public class CitySelectionFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fr_city_selection, container, false);
+        return inflater.inflate(R.layout.fragment_city_selection, container, false);
     }
 
     @Override
@@ -63,21 +56,15 @@ public class CitySelectionFragment extends Fragment {
             public void onItemClick(View view, int position) {
                 currentPosition = position;
                 showWeather();
+
             }
         });
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-
-    }
-
     private void showWeather() {
         if (isExistWeather) {
-
             WeatherFragment detail = WeatherFragment.newInstance(getContainer());
-            FragmentTransaction ft = Objects.requireNonNull(getFragmentManager()).beginTransaction();
+            FragmentTransaction ft = requireFragmentManager().beginTransaction();
             ft.replace(R.id.weather_detail, detail);  // замена фрагмента
             ft.commit();
         } else {
@@ -94,10 +81,9 @@ public class CitySelectionFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 CityAddDialog dialog = new CityAddDialog();
-                dialog.show(Objects.requireNonNull(getFragmentManager()), "Диалог");
+                dialog.show(requireFragmentManager(), "Диалог");
             }
         });
-
     }
 
     @Override
@@ -105,42 +91,19 @@ public class CitySelectionFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         isExistWeather = getResources().getConfiguration().orientation
                 == Configuration.ORIENTATION_LANDSCAPE;
-        if (savedInstanceState != null) {
-            currentPosition = savedInstanceState.getInt(CURRENT_CITY, 0);
-            isShowHumidity = savedInstanceState.getBoolean(IS_SHOW_HUMIDITY, false);
-            isShowWind = savedInstanceState.getBoolean(IS_SHOW_WIND, false);
-        }
         if (isExistWeather) {
             showWeather();
         }
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putInt(CURRENT_CITY, currentPosition);
-        outState.putBoolean(IS_SHOW_HUMIDITY, isShowHumidity);
-        outState.putBoolean(IS_SHOW_WIND, isShowWind);
-        super.onSaveInstanceState(outState);
     }
 
     private Container getContainer() {
         Container container = new Container();
         container.id = currentPosition;
         container.cityName = DataRepo.getWeather().get(currentPosition).getCityName();
-        container.showHumidity = isShowHumidity;
-        container.showWind = isShowWind;
-        container.data = DataRepo.getWeather().get(currentPosition);
         return container;
     }
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-
-    }
-
     public void AddCity(String text) {
-
         cityAdapter.notifyItemInserted(DataRepo.addCity(text));
         Snackbar.make(view, R.string.city_add, Snackbar.LENGTH_LONG)
                 .setAction(R.string.Cancel, new View.OnClickListener() {
@@ -150,7 +113,6 @@ public class CitySelectionFragment extends Fragment {
                     }
                 }).show();
     }
-
 }
 
 

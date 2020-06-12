@@ -14,13 +14,11 @@ import java.util.Objects;
 
 public class WeatherActivity extends BaseActyvity {
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather);
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-
             finish();
             return;
         }

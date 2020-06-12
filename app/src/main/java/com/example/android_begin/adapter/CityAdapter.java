@@ -33,8 +33,7 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.getTvCity().setText(weatherData.get(position).getCityName());
-        String strTemperature = weatherData.get(position).getTemperature() + "℃";
-        holder.getTvTemp().setText(strTemperature);
+
     }
 
     @Override
@@ -52,15 +51,11 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvCity;
-        private TextView tvTemp;
-        private CardView cardView;
-
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvCity = itemView.findViewById(R.id.tv_city);
-            tvTemp = itemView.findViewById(R.id.tv_temp);
-            cardView = itemView.findViewById(R.id.card_view);
+            CardView cardView = itemView.findViewById(R.id.card_view);
             cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -69,10 +64,6 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.ViewHolder> {
                     }
                 }
             });
-        }
-
-        public TextView getTvTemp() {
-            return tvTemp;
         }
 
         public TextView getTvCity() {

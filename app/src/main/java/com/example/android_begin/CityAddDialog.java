@@ -21,7 +21,7 @@ public class CityAddDialog extends BottomSheetDialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.add_city, container, false);
+        View view = inflater.inflate(R.layout.dialig_add_city, container, false);
         init(view);
         return view;
     }
@@ -53,5 +53,4 @@ public class CityAddDialog extends BottomSheetDialogFragment {
     public interface AddButtonListener {
         void onAddButtonClicked(String text);
     }
-
 }

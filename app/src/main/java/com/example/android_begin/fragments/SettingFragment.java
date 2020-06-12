@@ -15,8 +15,6 @@ import androidx.fragment.app.Fragment;
 import com.example.android_begin.R;
 import com.example.android_begin.ShPref;
 
-import java.util.Objects;
-
 import static android.content.Context.MODE_PRIVATE;
 
 public class SettingFragment extends Fragment {
@@ -26,7 +24,7 @@ public class SettingFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fr_setting, container, false);
+        return inflater.inflate(R.layout.fragment_setting, container, false);
     }
 
     @Override
@@ -36,9 +34,8 @@ public class SettingFragment extends Fragment {
     }
 
     private void initViews(View view) {
-
         Spinner theme = view.findViewById(R.id.sp_theme);
-        if (ShPref.isDarkTheme(Objects.requireNonNull(getContext()))) {
+        if (ShPref.isDarkTheme(requireContext())) {
             theme.setSelection(0);
         } else {
             theme.setSelection(1);
@@ -57,10 +54,9 @@ public class SettingFragment extends Fragment {
 
 
     protected void setDarkTheme(boolean isDarkTheme) {
-        SharedPreferences sharedPref = Objects.requireNonNull(getActivity()).getSharedPreferences(Preff, MODE_PRIVATE);
+        SharedPreferences sharedPref = requireActivity().getSharedPreferences(Preff, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putBoolean(IsDarkTheme, isDarkTheme);
         editor.apply();
     }
-
 }

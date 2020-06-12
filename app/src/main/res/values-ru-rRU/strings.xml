@@ -13,21 +13,12 @@
     <string name="use_gps">Использовать GPS</string>
     <string name="send_statistics">Отправлять статистику</string>
     <string name="No_city_set">Не выбран город</string>
-    <string-array name="city">
-        <item>Москва</item>
-        <item>Самара</item>
-        <item>Вологда</item>
-        <item>Саратов</item>
-        <item>Новосибирск</item>
-        <item>Омск</item>
-        <item>Екатеринбург</item>
-    </string-array>
     <string-array name="theme">
         <item>Темная</item>
         <item>Светлая</item>
     </string-array>
     <string name="humidity">Влажность</string>
-    <string name="new_city">new city</string>
+    <string name="new_city">Город</string>
     <string name="hist_">История…</string>
     <string name="add">Добавить</string>
     <string name="city_add">Город добавлен</string>
@@ -35,4 +26,5 @@
     <string name="title_home">Главная</string>
     <string name="titl_settings">Настройки</string>
     <string name="title_about">О программе</string>
+    <string name="error">Ошибка загрузки данных</string>
 </resources>
