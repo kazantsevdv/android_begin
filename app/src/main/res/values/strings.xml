@@ -1,24 +1,16 @@
 <resources>
     <string name="app_name">Weather</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
     <string name="wi_windy" translatable="false">&#xf021;</string>
     <string name="wind_sped">&#xf050;</string>
     <string name="wind">Wind</string>
-    <string name="barometer" translatable="false">&#xf079;</string>
     <string name="humidity_val" translatable="false"> &#xf07a;</string>
     <string name="humidity">humidity</string>
-    <string name="data">1 June 2020</string>
     <string name="city">"Moscow"</string>
     <string name="temperature" translatable="false">10 ℃</string>
-    <string name="time" translatable="false">17:05</string>
     <string name="weather" translatable="false">weather</string>
-    <string name="time1" translatable="false">17:00</string>
-    <string name="time2" translatable="false">18:00</string>
-    <string name="time3" translatable="false">19:00</string>
-    <string name="time4" translatable="false">20:00</string>
-    <string name="t1" translatable="false">0 ℃</string>
-    <string name="t2" translatable="false">5 ℃</string>
-    <string name="t3" translatable="false">15 ℃</string>
-    <string name="t4" translatable="false">20 ℃</string>
     <string name="Button_select">Select</string>
     <string name="input_city">input city</string>
     <string name="pressure">Pressure</string>
@@ -28,7 +20,7 @@
     <string name="send_statistics">Send statistics</string>
     <string name="No_city_set">No city set</string>
     <string name="www" translatable="false">WWW</string>
-    <string name="hist" translatable="false">Hist</string>
+    <string name="hist">History</string>
     <string name="add">Add</string>
     <string name="new_city">new city</string>
     <string name="hist_">Hist…</string>
@@ -47,6 +39,9 @@
     <string name="weather_snowy" translatable="false">&#xf01b;</string>
     <string name="weather_thunder" translatable="false">&#xf01e;</string>
     <string name="weather_drizzle" translatable="false">&#xf01c;</string>
+    <string name="City_Selection">City Selection</string>
+    <string name="Hist">History</string>
+    <string name="search">Search</string>
 
 
     <string-array name="theme">

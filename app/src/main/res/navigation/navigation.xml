@@ -8,16 +8,21 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.example.android_begin.fragments.CitySelectionFragment"
-        android:label="CitySelectionFragment"
+        android:label="@string/City_Selection"
         tools:layout="@layout/fragment_city_selection" />
     <fragment
         android:id="@+id/navigation_info"
         android:name="com.example.android_begin.fragments.InfoFragment"
-        android:label="InfoFragment"
+        android:label="@string/title_about"
         tools:layout="@layout/fragment_info" />
     <fragment
         android:id="@+id/navigation_settings"
         android:name="com.example.android_begin.fragments.SettingFragment"
-        android:label="SettingFragment"
+        android:label="@string/titl_settings"
         tools:layout="@layout/fragment_setting" />
+    <fragment
+        android:id="@+id/navigation_hist"
+        android:name="com.example.android_begin.fragments.HistFragment"
+        android:label="@string/Hist"
+        tools:layout="@layout/fragment_hist" />
 </navigation>

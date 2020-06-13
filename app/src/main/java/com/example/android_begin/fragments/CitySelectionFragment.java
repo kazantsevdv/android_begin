@@ -18,6 +18,7 @@ import com.example.android_begin.CityAddDialog;
 import com.example.android_begin.Container;
 import com.example.android_begin.DataRepo;
 import com.example.android_begin.R;
+import com.example.android_begin.ShPref;
 import com.example.android_begin.activity.WeatherActivity;
 import com.example.android_begin.adapter.CityAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -42,6 +43,7 @@ public class CitySelectionFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.view = view;
+        currentPosition = ShPref.getCurPos(requireActivity());
         initViews(view);
         initRecyclerView();
     }
@@ -51,20 +53,28 @@ public class CitySelectionFragment extends Fragment {
         rvCity.setLayoutManager(layoutManager);
         cityAdapter = new CityAdapter(DataRepo.getWeather());
         rvCity.setAdapter(cityAdapter);
+        if (currentPosition > cityAdapter.getItemCount() - 1) {
+            currentPosition = 0;
+        }
         cityAdapter.SetOnItemClickListener(new CityAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 currentPosition = position;
                 showWeather();
-
             }
         });
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        ShPref.setCurPos(requireActivity(), currentPosition);
     }
 
     private void showWeather() {
         if (isExistWeather) {
             WeatherFragment detail = WeatherFragment.newInstance(getContainer());
-            FragmentTransaction ft = requireFragmentManager().beginTransaction();
+            FragmentTransaction ft = requireActivity().getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.weather_detail, detail);  // замена фрагмента
             ft.commit();
         } else {
