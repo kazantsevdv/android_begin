@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:orderInCategory="5"
         android:id="@+id/navigation_settings"
         android:icon="@drawable/ic_baseline_settings_24"
-        android:title="@string/titl_settings"
-        app:showAsAction="always" />
+        android:title="@string/titl_settings" />
 
     <item
         android:orderInCategory="10"

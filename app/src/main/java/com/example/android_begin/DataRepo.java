@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 public class DataRepo {
-    private static final String OPEN_WEATHER_API_KEY = "762ee61f52313fbd10a4eb54ae4d4de2";
+    private static final String OPEN_WEATHER_API_KEY = "e1c7641d2f37202b27e9d0e06852f460";
     private static final String OPEN_WEATHER_API_URL =
             "https://api.openweathermap.org/data/2.5/weather?q=%s&units=metric";
     private static final String KEY = "x-api-key";
