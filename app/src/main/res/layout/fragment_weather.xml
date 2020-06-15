@@ -3,7 +3,7 @@
     android:id="@+id/refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primaryDarkColor">
+    android:background="@color/secondaryColor">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,7 +15,7 @@
             android:id="@+id/cl_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <TextView
                 android:id="@+id/weather_icon"
@@ -27,7 +27,8 @@
                 android:textSize="@dimen/icon_font_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_city" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_city"
+                tools:text="@string/weather_clear_night" />
 
 
             <TextView
@@ -38,7 +39,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/weather_icon"
-                tools:text="@string/temperature" />
+                tools:text="10 ℃" />
 
             <TextView
                 android:id="@+id/tv_wind"
@@ -73,11 +74,12 @@
                 android:layout_marginTop="8dp"
                 android:includeFontPadding="false"
                 android:text="@string/city"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/primaryTextColor"
                 android:textSize="32sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="City" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

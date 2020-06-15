@@ -69,6 +69,7 @@ public class HistFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         rvHist.setLayoutManager(layoutManager);
         histAdapter = new HistAdapter(DataRepo.getWeatherHists());
+
         rvHist.setAdapter(histAdapter);
     }
 
