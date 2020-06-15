@@ -3,7 +3,6 @@
     <string name="app_name">Погода</string>
     <string name="city">Москва</string>
     <string name="wind_sped">&#xf050;</string>
-    <string name="data">1 Июня 2020</string>
     <string name="Button_select">Выбрать</string>
     <string name="input_city">Ведите город</string>
     <string name="wind">Ветер</string>
@@ -27,4 +26,11 @@
     <string name="titl_settings">Настройки</string>
     <string name="title_about">О программе</string>
     <string name="error">Ошибка загрузки данных</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="City_Selection">Выбор города</string>
+    <string name="Hist">История</string>
+    <string name="search">Поиск</string>
+    <string name="hist">История</string>
 </resources>

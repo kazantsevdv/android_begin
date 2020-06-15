@@ -8,8 +8,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 public class DataRepo {
     private static final String OPEN_WEATHER_API_KEY = "762ee61f52313fbd10a4eb54ae4d4de2";
@@ -21,6 +21,12 @@ public class DataRepo {
 
     private static List<WeatherData> weatherData;
 
+    private static List<WeatherHist> weatherHists = new ArrayList<>();
+
+    public static List<WeatherHist> getWeatherHists() {
+        return weatherHists;
+    }
+
     static {
         weatherData = new ArrayList<>();
         for (String listCity : cityArray) {
@@ -28,14 +34,11 @@ public class DataRepo {
         }
     }
 
-
     public static List<WeatherData> getWeather() {
         return weatherData;
     }
 
-
     public static int addCity(String name) {
-        Random r = new Random();
         weatherData.add(new WeatherData(name));
         return weatherData.size() - 1;
     }
@@ -59,7 +62,12 @@ public class DataRepo {
             }
             reader.close();
             Gson gson = new Gson();
-            return gson.fromJson(rawData.toString(), WeatherRequest.class);
+            WeatherRequest weatherRequest = gson.fromJson(rawData.toString(), WeatherRequest.class);
+            if (weatherRequest != null) {
+                weatherHists.add(new WeatherHist(new Date(), city, weatherRequest.getMain().getTemp(), weatherRequest.getMain().getPressure(), weatherRequest.getMain().getHumidity()));
+            }
+
+            return weatherRequest;
         } catch (Exception exc) {
             exc.printStackTrace();
             return null;
