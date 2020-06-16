@@ -96,6 +96,7 @@ public class WeatherFragment extends Fragment {
                         @Override
                         public void run() {
                             refresh.setRefreshing(false);
+                            content.setVisibility(View.GONE);
                             errView.setVisibility(View.VISIBLE);
                             if (getActivity() != null) {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());

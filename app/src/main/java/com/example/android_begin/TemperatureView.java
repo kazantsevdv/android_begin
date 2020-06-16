@@ -18,6 +18,8 @@ public class TemperatureView extends View {
     private int width = 0;
     private int height = 0;
     private int value = 0;
+    private float aspectx;
+    private float aspecty;
 
     public TemperatureView(Context context) {
         super(context);
@@ -45,6 +47,7 @@ public class TemperatureView extends View {
 
     public void setValue(int value) {
         this.value = value;
+        invalidate();
     }
 
     private void initAttr(Context context, AttributeSet attrs) {
@@ -60,14 +63,21 @@ public class TemperatureView extends View {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        width = w - getPaddingLeft() - getPaddingRight();
-        height = h - getPaddingTop() - getPaddingBottom();
+        width = w;
+        float tw = w - getPaddingLeft() - getPaddingRight() - 5;
+        aspectx = tw / w;
+        height = h;
+        float th = h - getPaddingTop() - getPaddingBottom() - 5;
+        aspecty = th / h;
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.save();
+        //маштабируем и сдвигаем холст если есть падинги
+        canvas.scale(aspectx, aspecty);
+        canvas.translate(getPaddingRight(), getPaddingTop());
         //столбик
         rect.set(width / 2 + width / 4, 0, width, height);
         paint.setColor(Color.GRAY);
