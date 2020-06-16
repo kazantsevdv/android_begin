@@ -18,4 +18,6 @@ public abstract class BaseActyvity extends AppCompatActivity {
             setTheme(R.style.AppThemeLight);
         }
     }
+
+
 }

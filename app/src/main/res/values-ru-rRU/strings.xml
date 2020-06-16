@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Погода</string>
-    <string name="city">Москва</string>
+    <string name="city">Город</string>
     <string name="wind_sped">&#xf050;</string>
     <string name="Button_select">Выбрать</string>
     <string name="input_city">Ведите город</string>
@@ -25,7 +25,7 @@
     <string name="title_home">Главная</string>
     <string name="titl_settings">Настройки</string>
     <string name="title_about">О программе</string>
-    <string name="error">Ошибка загрузки данных</string>
+    <string name="error_get_data">Ошибка загрузки данных</string>
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
@@ -33,4 +33,5 @@
     <string name="Hist">История</string>
     <string name="search">Поиск</string>
     <string name="hist">История</string>
+    <string name="error">Ошибка</string>
 </resources>
