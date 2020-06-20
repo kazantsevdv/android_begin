@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -17,6 +18,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.android_begin.Container;
 import com.example.android_begin.DataRepo;
 import com.example.android_begin.R;
+import com.example.android_begin.TemperatureView;
 import com.example.android_begin.model.WeatherRequest;
 
 import java.util.Date;
@@ -33,6 +35,7 @@ public class WeatherFragment extends Fragment {
     private ConstraintLayout content;
     private FrameLayout errView;
     private TextView weatherIconTextView;
+    private TemperatureView temperatureView;
 
     public static WeatherFragment newInstance(Container container) {
         WeatherFragment Fragment = new WeatherFragment();
@@ -79,6 +82,7 @@ public class WeatherFragment extends Fragment {
         content.setVisibility(View.GONE);
         errView = view.findViewById(R.id.error);
         errView.setVisibility(View.GONE);
+        temperatureView = view.findViewById(R.id.tv_view);
     }
 
     void loadWeatherData(final String city) {
@@ -92,7 +96,18 @@ public class WeatherFragment extends Fragment {
                         @Override
                         public void run() {
                             refresh.setRefreshing(false);
+                            content.setVisibility(View.GONE);
                             errView.setVisibility(View.VISIBLE);
+                            if (getActivity() != null) {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+                                builder.setTitle(R.string.error)
+                                        .setMessage(R.string.error_get_data)
+                                        .setIcon(R.drawable.ic_baseline_error_outline_24)
+                                        .setCancelable(true)
+                                        .setPositiveButton(R.string.ok, null)
+                                        .create()
+                                        .show();
+                            }
                         }
                     });
                 } else {
@@ -119,6 +134,8 @@ public class WeatherFragment extends Fragment {
         String strWind = getString(R.string.wind_sped) + " " + weatherData.getWind().getSpeed() + " m/c";
         wind.setText(strWind);
         weatherIconTextView.setText(setWeatherIcon(weatherData.getWeather()[0].getId(), weatherData.getSys().getSunrise(), weatherData.getSys().getSunset()));
+        float val = weatherData.getMain().getTemp();
+        temperatureView.setValue((int) val);
     }
 
     private String setWeatherIcon(int actualId, long sunrise, long sunset) {

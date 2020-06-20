@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,8 +12,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -81,6 +82,17 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="City" />
 
+            <com.example.android_begin.TemperatureView
+                android:id="@+id/tv_view"
+                android:layout_width="68dp"
+                android:layout_height="190dp"
+                android:background="@color/back_custom"
+                android:paddingTop="15dp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_temperature"
+                app:layout_constraintEnd_toStartOf="@+id/tv_temperature"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/weather_icon"
+                app:value="0" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
