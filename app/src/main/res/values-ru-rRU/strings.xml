@@ -34,4 +34,5 @@
     <string name="search">Поиск</string>
     <string name="hist">История</string>
     <string name="error">Ошибка</string>
+    <string name="get_weather">Получение погоды</string>
 </resources>
