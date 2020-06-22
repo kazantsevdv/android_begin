@@ -44,6 +44,7 @@
     <string name="Hist">History</string>
     <string name="search">Search</string>
     <string name="ok" translatable="false">OK</string>
+    <string name="get_weather">Get weather</string>
 
 
     <string-array name="theme">

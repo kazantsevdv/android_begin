@@ -1,5 +1,9 @@
 package com.example.android_begin.fragments;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -10,21 +14,21 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.android_begin.Container;
-import com.example.android_begin.DataRepo;
 import com.example.android_begin.R;
 import com.example.android_begin.TemperatureView;
+import com.example.android_begin.WeatherData;
 import com.example.android_begin.model.WeatherRequest;
-
-import java.util.Date;
+import com.example.android_begin.service.WeatherService;
 
 public class WeatherFragment extends Fragment {
     public static final String CONTAINER = "container";
+    public static final String CITY_NAME = "CITY_NAME";
+    public final static String BROADCAST_ACTION = "weather.servicebackbroadcast";
     private Container container;
     private final Handler handler = new Handler();
     private WeatherRequest weatherData;
@@ -36,6 +40,7 @@ public class WeatherFragment extends Fragment {
     private FrameLayout errView;
     private TextView weatherIconTextView;
     private TemperatureView temperatureView;
+    private BroadcastReceiver br;
 
     public static WeatherFragment newInstance(Container container) {
         WeatherFragment Fragment = new WeatherFragment();
@@ -61,7 +66,38 @@ public class WeatherFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initViews(view);
+        initBR();
         loadWeatherData(container.cityName);
+    }
+
+    private void initBR() {
+        br = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                refresh.setRefreshing(false);
+                WeatherData weatherData = (WeatherData) intent.getSerializableExtra(CITY_NAME);
+                if (weatherData != null) {
+                    content.setVisibility(View.VISIBLE);
+                    errView.setVisibility(View.GONE);
+                    fillView(weatherData);
+                } else {
+                    content.setVisibility(View.GONE);
+                    errView.setVisibility(View.VISIBLE);
+                }
+            }
+        };
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        requireContext().unregisterReceiver(br);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        requireContext().registerReceiver(br, new IntentFilter(BROADCAST_ACTION));
     }
 
     private void initViews(View view) {
@@ -87,96 +123,17 @@ public class WeatherFragment extends Fragment {
 
     void loadWeatherData(final String city) {
         refresh.setRefreshing(true);
-        new Thread() {
-            @Override
-            public void run() {
-                weatherData = DataRepo.getWeatherData(city);
-                if (weatherData == null) {
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            refresh.setRefreshing(false);
-                            content.setVisibility(View.GONE);
-                            errView.setVisibility(View.VISIBLE);
-                            if (getActivity() != null) {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
-                                builder.setTitle(R.string.error)
-                                        .setMessage(R.string.error_get_data)
-                                        .setIcon(R.drawable.ic_baseline_error_outline_24)
-                                        .setCancelable(true)
-                                        .setPositiveButton(R.string.ok, null)
-                                        .create()
-                                        .show();
-                            }
-                        }
-                    });
-                } else {
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (getActivity() != null) {
-                                refresh.setRefreshing(false);
-                                content.setVisibility(View.VISIBLE);
-                                fillView();
-                            }
-                        }
-                    });
-                }
-            }
-        }.start();
+        Intent intent = new Intent(requireActivity(), WeatherService.class).putExtra(CITY_NAME, city);
+        // стартуем сервис
+        if (getActivity() != null)
+            requireActivity().startService(intent);
     }
 
-    private void fillView() {
-        String strTemperature = weatherData.getMain().getTemp() + " ℃";
-        temperature.setText(strTemperature);
-        String strHumidity = weatherData.getMain().getHumidity() + " " + getString(R.string.humidity_val);
-        humidity.setText(strHumidity);
-        String strWind = getString(R.string.wind_sped) + " " + weatherData.getWind().getSpeed() + " m/c";
-        wind.setText(strWind);
-        weatherIconTextView.setText(setWeatherIcon(weatherData.getWeather()[0].getId(), weatherData.getSys().getSunrise(), weatherData.getSys().getSunset()));
-        float val = weatherData.getMain().getTemp();
-        temperatureView.setValue((int) val);
-    }
-
-    private String setWeatherIcon(int actualId, long sunrise, long sunset) {
-        int id = actualId / 100;
-        String icon = "";
-
-        if (actualId == 800) {
-            long currentTime = new Date().getTime();
-            if (currentTime >= sunrise && currentTime < sunset) {
-                icon = getString(R.string.weather_sunny);
-            } else {
-                icon = getString(R.string.weather_clear_night);
-            }
-        } else {
-            switch (id) {
-                case 2: {
-                    icon = getString(R.string.weather_thunder);
-                    break;
-                }
-                case 3: {
-                    icon = getString(R.string.weather_drizzle);
-                    break;
-                }
-                case 5: {
-                    icon = getString(R.string.weather_rainy);
-                    break;
-                }
-                case 6: {
-                    icon = getString(R.string.weather_snowy);
-                    break;
-                }
-                case 7: {
-                    icon = getString(R.string.weather_foggy);
-                    break;
-                }
-                case 8: {
-                    icon = getString(R.string.weather_cloudy);
-                    break;
-                }
-            }
-        }
-        return icon;
+    private void fillView(WeatherData weatherData) {
+        temperature.setText(weatherData.getTemperature());
+        humidity.setText(weatherData.getHumidity());
+        wind.setText(weatherData.getWind());
+        weatherIconTextView.setText(weatherData.getWeatherIconText());
+        temperatureView.setValue(weatherData.getTempVal());
     }
 }
