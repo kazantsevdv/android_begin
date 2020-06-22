@@ -82,7 +82,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="City" />
 
-            <com.example.android_begin.TemperatureView
+            <com.example.android_begin.view.TemperatureView
                 android:id="@+id/tv_view"
                 android:layout_width="68dp"
                 android:layout_height="190dp"

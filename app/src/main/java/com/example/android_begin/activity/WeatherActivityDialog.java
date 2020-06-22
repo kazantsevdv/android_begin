@@ -8,20 +8,20 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.android_begin.Container;
-import com.example.android_begin.DialogSearchCity;
 import com.example.android_begin.R;
+import com.example.android_begin.dialog.searchCityDialog;
 import com.example.android_begin.fragments.WeatherFragment;
 
 public class WeatherActivityDialog extends BaseActyvity {
     public static final String SEARCH_DIALOG = "SEARCH_DIALOG";
     public static final String CURRENT_CITY = "CURRENT_CITY";
-    private DialogSearchCity dialog;
+    private searchCityDialog dialog;
     private String currentCity = "Moscow";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dialog = new DialogSearchCity();
+        dialog = new searchCityDialog();
         setContentView(R.layout.activity_weather);
         if (savedInstanceState != null) {
             currentCity = savedInstanceState.getString(CURRENT_CITY, "");

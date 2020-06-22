@@ -20,10 +20,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.android_begin.Container;
 import com.example.android_begin.R;
-import com.example.android_begin.TemperatureView;
 import com.example.android_begin.WeatherData;
 import com.example.android_begin.model.WeatherRequest;
 import com.example.android_begin.service.WeatherService;
+import com.example.android_begin.view.TemperatureView;
 
 public class WeatherFragment extends Fragment {
     public static final String CONTAINER = "container";

@@ -1,4 +1,4 @@
-package com.example.android_begin;
+package com.example.android_begin.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -10,6 +10,8 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import androidx.annotation.Nullable;
+
+import com.example.android_begin.R;
 
 public class TemperatureView extends View {
 

@@ -14,13 +14,13 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.android_begin.CityAddDialog;
 import com.example.android_begin.Container;
 import com.example.android_begin.DataRepo;
 import com.example.android_begin.R;
 import com.example.android_begin.ShPref;
 import com.example.android_begin.activity.WeatherActivity;
 import com.example.android_begin.adapter.CityAdapter;
+import com.example.android_begin.dialog.CityAddDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
