@@ -6,8 +6,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="windowActionBar">true</item>
-        <item name="windowNoTitle">false</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -37,7 +37,7 @@
 
     <style name="weather_temper">
         <item name="android:textColor">@color/secondaryTextColor</item>
-        <item name="android:textSize">60sp</item>
+        <item name="android:textSize">50sp</item>
     </style>
 
     <style name="weather_wind_hum">

@@ -35,7 +35,7 @@ public class MainActivity extends BaseActyvity implements CityAddDialog.AddButto
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_hist, R.id.navigation_settings, R.id.navigation_info)
+                R.id.navigation_home, R.id.navigation_settings, R.id.navigation_info)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);

@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 
 import com.example.android_begin.DataRepo;
 import com.example.android_begin.fragments.WeatherFragment;
+import com.example.android_begin.internet.ParsData;
 import com.example.android_begin.model.WeatherRequest;
 
 import java.util.concurrent.ExecutorService;
