@@ -18,7 +18,7 @@
             android:maxLength="30"
             android:maxLines="1"
             android:minWidth="@dimen/minwidth"
-            android:textSize="16sp" />
+            android:textSize="20sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
@@ -28,6 +28,6 @@
         android:layout_gravity="end"
         android:layout_margin="@dimen/buttonmargin"
         android:text="@string/search"
-        android:textSize="24sp" />
+        android:textSize="16sp" />
 
 </LinearLayout>

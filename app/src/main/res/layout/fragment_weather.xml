@@ -17,29 +17,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="visible">
-
-            <TextView
-                android:id="@+id/weather_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:fontFamily="@font/weathericons"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="@dimen/icon_font_size"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_city"
-                tools:text="@string/weather_clear_night" />
-
-
             <TextView
                 android:id="@+id/tv_temperature"
                 style="@style/weather_temper"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/weather_icon"
+                app:layout_constraintEnd_toEndOf="@+id/imageView3"
+                app:layout_constraintStart_toStartOf="@+id/imageView3"
+                app:layout_constraintTop_toBottomOf="@+id/imageView3"
                 tools:text="10 ℃" />
 
             <TextView
@@ -47,7 +32,7 @@
                 style="@style/weather_wind_hum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tv_humidity"
                 app:layout_constraintStart_toStartOf="@+id/tv_temperature"
@@ -77,8 +62,8 @@
                 android:text="@string/city"
                 android:textColor="@color/primaryTextColor"
                 android:textSize="32sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/imageView3"
+                app:layout_constraintStart_toStartOf="@+id/imageView3"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="City" />
 
@@ -86,13 +71,24 @@
                 android:id="@+id/tv_view"
                 android:layout_width="68dp"
                 android:layout_height="190dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="26dp"
                 android:background="@color/back_custom"
                 android:paddingTop="15dp"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_temperature"
-                app:layout_constraintEnd_toStartOf="@+id/tv_temperature"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/weather_icon"
+                app:layout_constraintTop_toBottomOf="@+id/tv_city"
                 app:value="0" />
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:contentDescription="@string/todo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tv_view"
+                app:layout_constraintTop_toBottomOf="@+id/tv_city"
+                tools:srcCompat="@tools:sample/avatars" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

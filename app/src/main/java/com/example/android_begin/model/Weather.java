@@ -5,6 +5,12 @@ public class Weather {
     private int id;
     private String description;
 
+    private String icon;
+
+    public String getIcon() {
+        return icon;
+    }
+
     public int getId() {
         return id;
     }
