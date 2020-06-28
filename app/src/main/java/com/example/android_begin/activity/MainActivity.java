@@ -1,6 +1,7 @@
 package com.example.android_begin.activity;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,15 +11,20 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.android_begin.R;
+import com.example.android_begin.ShPref;
 import com.example.android_begin.dialog.CityAddDialog;
 import com.example.android_begin.fragments.CitySelectionFragment;
+import com.example.android_begin.fragments.WeatherFragment;
 import com.google.android.material.navigation.NavigationView;
+
+import java.util.Objects;
 
 
 public class MainActivity extends BaseActyvity implements CityAddDialog.AddButtonListener {
@@ -35,12 +41,20 @@ public class MainActivity extends BaseActyvity implements CityAddDialog.AddButto
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_settings, R.id.navigation_info)
+                R.id.navigation_home, R.id.navigation_hist, R.id.navigation_settings, R.id.navigation_info)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            if (R.id.navigation_home != Objects.requireNonNull(navController.getCurrentDestination()).getId()) {
+                WeatherFragment detail = WeatherFragment.newInstance(ShPref.getCurCity(this));
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.weather_detail, detail);  // замена фрагмента
+                ft.commit();
+            }
+        }
     }
 
     @Override

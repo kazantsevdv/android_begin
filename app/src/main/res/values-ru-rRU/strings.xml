@@ -35,4 +35,6 @@
     <string name="hist">История</string>
     <string name="error">Ошибка</string>
     <string name="get_weather">Получение погоды</string>
+    <string name="no_data_click_add">нет данных, нажми кнопку добавить</string>
+    <string name="no_data">Нет данных</string>
 </resources>

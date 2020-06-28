@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,24 +15,31 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.android_begin.Container;
-import com.example.android_begin.DataRepo;
+import com.example.android_begin.App;
 import com.example.android_begin.R;
 import com.example.android_begin.ShPref;
 import com.example.android_begin.activity.WeatherActivity;
 import com.example.android_begin.adapter.CityAdapter;
 import com.example.android_begin.dialog.CityAddDialog;
+import com.example.android_begin.room.City;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
 
 public class CitySelectionFragment extends Fragment {
 
     public static final String CONTAINER = "container";
     private RecyclerView rvCity;
-    private int currentPosition = 0;
+    private String currentCity = "Moscow";
     private boolean isExistWeather;
     private CityAdapter cityAdapter;
     private View view;
+    private Disposable disposable;
+    private FrameLayout emptyView;
 
     @Nullable
     @Override
@@ -43,7 +51,7 @@ public class CitySelectionFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.view = view;
-        currentPosition = ShPref.getCurPos(requireActivity());
+        currentCity = ShPref.getCurCity(requireActivity());
         initViews(view);
         initRecyclerView();
     }
@@ -51,48 +59,50 @@ public class CitySelectionFragment extends Fragment {
     private void initRecyclerView() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         rvCity.setLayoutManager(layoutManager);
-        cityAdapter = new CityAdapter(DataRepo.getWeather());
+        cityAdapter = new CityAdapter();
         rvCity.setAdapter(cityAdapter);
-        if (currentPosition > cityAdapter.getItemCount() - 1) {
-            currentPosition = 0;
-        }
-        cityAdapter.SetOnItemClickListener(new CityAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                currentPosition = position;
-                showWeather();
-            }
+        cityAdapter.SetOnItemClickListener((view, cityName) -> {
+            currentCity = cityName;
+            showWeather();
         });
+        disposable = App.instance.getDatabase().cityDAO().getAll()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(citys -> {
+                            if (citys.size() == 0)
+                                emptyView.setVisibility(View.VISIBLE);
+                            else emptyView.setVisibility(View.GONE);
+                            cityAdapter.addData(citys);
+                        }
+                );
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        ShPref.setCurPos(requireActivity(), currentPosition);
+        ShPref.setCurCity(requireActivity(), currentCity);
     }
 
     private void showWeather() {
         if (isExistWeather) {
-            WeatherFragment detail = WeatherFragment.newInstance(getContainer());
+            WeatherFragment detail = WeatherFragment.newInstance(currentCity);
             FragmentTransaction ft = requireActivity().getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.weather_detail, detail);  // замена фрагмента
             ft.commit();
         } else {
             Intent intent = new Intent(getActivity(), WeatherActivity.class);
-            intent.putExtra(CONTAINER, getContainer());
+            intent.putExtra(CONTAINER, currentCity);
             startActivity(intent);
         }
     }
 
     private void initViews(View view) {
         rvCity = view.findViewById(R.id.rv_city);
+        emptyView = view.findViewById(R.id.no_data);
         FloatingActionButton fab = view.findViewById(R.id.fab_add_city);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CityAddDialog dialog = new CityAddDialog();
-                dialog.show(requireFragmentManager(), "Диалог");
-            }
+        fab.setOnClickListener(v -> {
+            CityAddDialog dialog = new CityAddDialog();
+            dialog.show(getParentFragmentManager(), "Диалог");
         });
     }
 
@@ -106,22 +116,32 @@ public class CitySelectionFragment extends Fragment {
         }
     }
 
-    private Container getContainer() {
-        Container container = new Container();
-        container.id = currentPosition;
-        container.cityName = DataRepo.getWeather().get(currentPosition).getCityName();
-        return container;
+    public void AddCity(String text) {
+        App.instance.getDatabase().cityDAO().insert(new City(text))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DisposableSingleObserver<Long>() {
+                    @Override
+                    public void onSuccess(Long aLong) {
+                        Snackbar.make(view, R.string.city_add, Snackbar.LENGTH_LONG)
+                                .setAction(R.string.Cancel, v -> App.instance.getDatabase().cityDAO().delete(new City(text))
+                                        .subscribeOn(Schedulers.io())
+                                        .observeOn(AndroidSchedulers.mainThread())
+                                        .subscribe()).show();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                });
     }
 
-    public void AddCity(String text) {
-        cityAdapter.notifyItemInserted(DataRepo.addCity(text));
-        Snackbar.make(view, R.string.city_add, Snackbar.LENGTH_LONG)
-                .setAction(R.string.Cancel, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        cityAdapter.notifyItemRemoved(DataRepo.deleteCityLast());
-                    }
-                }).show();
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (disposable != null)
+            disposable.dispose();
     }
 }
 

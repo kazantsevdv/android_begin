@@ -15,25 +15,19 @@ import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.android_begin.App;
-import com.example.android_begin.Container;
 import com.example.android_begin.R;
-import com.example.android_begin.WeatherData;
 import com.example.android_begin.internet.OpenWeatherRepo;
 import com.example.android_begin.internet.ParsData;
-import com.example.android_begin.model.WeatherRequest;
+import com.example.android_begin.room.WeatherData;
 import com.example.android_begin.view.TemperatureView;
 import com.squareup.picasso.Picasso;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
 public class WeatherFragment extends Fragment {
-    public static final String CONTAINER = "container";
-    public static final String CITY_NAME = "CITY_NAME";
-    public static final String BROADCAST_ACTION = "service_broadcast";
-    private Container container;
+    public static final String CITY_NAME = "city_name";
     private SwipeRefreshLayout refresh;
     private TextView humidity;
     private TextView temperature;
@@ -42,11 +36,13 @@ public class WeatherFragment extends Fragment {
     private FrameLayout errView;
     private TemperatureView temperatureView;
     private ImageView imageView;
+    private TextView city;
+    private String cityName;
 
-    public static WeatherFragment newInstance(Container container) {
+    public static WeatherFragment newInstance(String cityName) {
         WeatherFragment Fragment = new WeatherFragment();
         Bundle args = new Bundle();
-        args.putSerializable(CONTAINER, container);
+        args.putString(CITY_NAME, cityName);
         Fragment.setArguments(args);
         return Fragment;
     }
@@ -60,26 +56,20 @@ public class WeatherFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        container = (Container) requireArguments().getSerializable(WeatherFragment.CONTAINER);
+        cityName = requireArguments().getString(CITY_NAME, "");
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initViews(view);
-        loadWeatherData(container.cityName);
+        loadWeatherData(cityName);
     }
 
     private void initViews(View view) {
         refresh = view.findViewById(R.id.refresh);
-        refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                loadWeatherData(container.cityName);
-            }
-        });
-        TextView city = view.findViewById(R.id.tv_city);
-        city.setText(container.cityName);
+        refresh.setOnRefreshListener(() -> loadWeatherData(cityName));
+        city = view.findViewById(R.id.tv_city);
         wind = view.findViewById(R.id.tv_wind);
         humidity = view.findViewById(R.id.tv_humidity);
         temperature = view.findViewById(R.id.tv_temperature);
@@ -92,20 +82,17 @@ public class WeatherFragment extends Fragment {
     }
 
     void loadWeatherData(final String city) {
-        refresh.setRefreshing(true);
+
         OpenWeatherRepo.getApiService().loadWeather(city)
                 .subscribeOn(Schedulers.io())
+                .map(weatherRequest -> new ParsData(App.instance).getWeatherData(weatherRequest))
+                .doOnSuccess(weatherData -> App.instance.getDatabase().weatherDAO().insert(weatherData))
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(new Function<WeatherRequest, WeatherData>() {
-                    @Override
-                    public WeatherData apply(WeatherRequest weatherRequest) throws Exception {
-                        return new ParsData(App.context).getWeatherData(weatherRequest);
-                    }
-                })
+                .doOnSubscribe(disposable -> refresh.setRefreshing(true))
+                .doFinally(() -> refresh.setRefreshing(false))
                 .subscribe(new DisposableSingleObserver<WeatherData>() {
                                @Override
                                public void onSuccess(WeatherData weatherData) {
-                                   refresh.setRefreshing(false);
                                    content.setVisibility(View.VISIBLE);
                                    errView.setVisibility(View.GONE);
                                    fillView(weatherData);
@@ -115,13 +102,13 @@ public class WeatherFragment extends Fragment {
                                public void onError(Throwable e) {
                                    content.setVisibility(View.GONE);
                                    errView.setVisibility(View.VISIBLE);
-                                   refresh.setRefreshing(false);
                                }
                            }
                 );
     }
 
     private void fillView(WeatherData weatherData) {
+        city.setText(weatherData.getCityName());
         temperature.setText(weatherData.getTemperature());
         humidity.setText(weatherData.getHumidity());
         wind.setText(weatherData.getWind());

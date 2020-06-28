@@ -7,7 +7,6 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.android_begin.Container;
 import com.example.android_begin.R;
 import com.example.android_begin.dialog.searchCityDialog;
 import com.example.android_begin.fragments.WeatherFragment;
@@ -36,7 +35,7 @@ public class WeatherActivityDialog extends BaseActyvity {
     }
 
     private void openWeather(String city) {
-        WeatherFragment details = WeatherFragment.newInstance(getContainer(city));
+        WeatherFragment details = WeatherFragment.newInstance(city);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, details)
@@ -59,12 +58,6 @@ public class WeatherActivityDialog extends BaseActyvity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private Container getContainer(String city) {
-        Container container = new Container();
-        container.cityName = city;
-        return container;
     }
 
     public void onDialogResult(String strCity) {

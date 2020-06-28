@@ -3,26 +3,25 @@ package com.example.android_begin.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android_begin.R;
-import com.example.android_begin.WeatherHist;
+import com.example.android_begin.room.WeatherData;
 
-import java.util.ArrayList;
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.List;
 
-public class HistAdapter extends RecyclerView.Adapter<HistAdapter.ViewHolder> implements Filterable {
-    private List<WeatherHist> weatherHists;
-    private List<WeatherHist> weatherHistsFiltered;
+public class HistAdapter extends RecyclerView.Adapter<HistAdapter.ViewHolder> {
+    private List<WeatherData> weatherHists;
 
-    public HistAdapter(List<WeatherHist> weatherHists) {
+
+    public HistAdapter(List<WeatherData> weatherHists) {
         this.weatherHists = weatherHists;
-        weatherHistsFiltered = weatherHists;
+
     }
 
     @NonNull
@@ -35,46 +34,20 @@ public class HistAdapter extends RecyclerView.Adapter<HistAdapter.ViewHolder> im
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.getTvCity().setText(weatherHistsFiltered.get(position).getCityName());
-        holder.getTvDate().setText(weatherHistsFiltered.get(position).getDate().toString());
-        String strTemperature = weatherHistsFiltered.get(position).getTemp() + " ℃";
-        holder.getTvtemp().setText(strTemperature);
+        holder.getTvCity().setText(weatherHists.get(position).getCityName());
+
+        long data = weatherHists.get(position).getData();
+        Date dt = new Date(data);
+        holder.getTvDate().setText(DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(dt));
+        holder.getTvtemp().setText(weatherHists.get(position).getTemperature());
     }
 
     @Override
     public int getItemCount() {
-        return weatherHistsFiltered.size();
+        return weatherHists.size();
     }
 
-    @Override
-    public Filter getFilter() {
-        return new Filter() {
-            @Override
-            protected FilterResults performFiltering(CharSequence constraint) {
-                String charString = constraint.toString();
-                List<WeatherHist> HistsFiltered = new ArrayList<>();
 
-                if (charString.isEmpty()) {
-                    HistsFiltered = weatherHists;
-                } else {
-                    for (int i = 0; i < weatherHists.size(); i++) {
-                        if (weatherHists.get(i).getCityName().toLowerCase().contains(charString.toLowerCase())) {
-                            HistsFiltered.add(weatherHists.get(i));
-                        }
-                    }
-                }
-                FilterResults filterResults = new FilterResults();
-                filterResults.values = HistsFiltered;
-                return filterResults;
-            }
-
-            @Override
-            protected void publishResults(CharSequence constraint, FilterResults results) {
-                weatherHistsFiltered = (List<WeatherHist>) results.values;
-                notifyDataSetChanged();
-            }
-        };
-    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvCity;

@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 
-import com.example.android_begin.Container;
 import com.example.android_begin.R;
 import com.example.android_begin.fragments.CitySelectionFragment;
 import com.example.android_begin.fragments.WeatherFragment;
@@ -23,7 +22,7 @@ public class WeatherActivity extends BaseActyvity {
             return;
         }
         if (savedInstanceState == null) {
-            Container arg = (Container) Objects.requireNonNull(getIntent().getExtras()).getSerializable(CitySelectionFragment.CONTAINER);
+            String arg = Objects.requireNonNull(getIntent().getExtras()).getString(CitySelectionFragment.CONTAINER);
             WeatherFragment details = WeatherFragment.newInstance(arg);
             getSupportFragmentManager()
                     .beginTransaction()
