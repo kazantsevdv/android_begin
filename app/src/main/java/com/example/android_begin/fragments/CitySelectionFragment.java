@@ -65,6 +65,10 @@ public class CitySelectionFragment extends Fragment {
             currentCity = cityName;
             showWeather();
         });
+        getAllCity();
+    }
+
+    private void getAllCity() {
         disposable = App.instance.getDatabase().cityDAO().getAll()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
