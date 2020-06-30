@@ -10,16 +10,16 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android_begin.R;
-import com.example.android_begin.WeatherData;
+import com.example.android_begin.room.City;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CityAdapter extends RecyclerView.Adapter<CityAdapter.ViewHolder> {
-    private List<WeatherData> weatherData;
+    private List<City> citys = new ArrayList<>();
     private OnItemClickListener itemClickListener;
 
-    public CityAdapter(List<WeatherData> weatherData) {
-        this.weatherData = weatherData;
+    public CityAdapter() {
     }
 
     @NonNull
@@ -32,21 +32,28 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.getTvCity().setText(weatherData.get(position).getCityName());
+        holder.getTvCity().setText(citys.get(position).getCityName());
 
     }
 
     @Override
     public int getItemCount() {
-        return weatherData.size();
+        return citys.size();
     }
+
+    public void addData(List<City> data) {
+        citys.clear();
+        citys.addAll(data);
+        notifyDataSetChanged();
+    }
+
 
     public void SetOnItemClickListener(OnItemClickListener itemClickListener) {
         this.itemClickListener = itemClickListener;
     }
 
     public interface OnItemClickListener {
-        void onItemClick(View view, int position);
+        void onItemClick(View view, String cityName);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -56,12 +63,9 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.ViewHolder> {
             super(itemView);
             tvCity = itemView.findViewById(R.id.tv_city);
             CardView cardView = itemView.findViewById(R.id.card_view);
-            cardView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (itemClickListener != null) {
-                        itemClickListener.onItemClick(v, getAdapterPosition());
-                    }
+            cardView.setOnClickListener(v -> {
+                if (itemClickListener != null) {
+                    itemClickListener.onItemClick(v, citys.get(getAdapterPosition()).getCityName());
                 }
             });
         }

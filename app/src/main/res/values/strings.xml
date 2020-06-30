@@ -45,6 +45,8 @@
     <string name="ok" translatable="false">OK</string>
     <string name="get_weather">Get weather</string>
     <string name="todo" translatable="false">TODO</string>
+    <string name="no_data_click_add">no data, click add</string>
+    <string name="no_data">No data</string>
 
 
     <string-array name="theme">

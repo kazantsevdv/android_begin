@@ -8,6 +8,15 @@ public class WeatherRequest {
     private Clouds clouds;
     private String name;
     private Sys sys;
+    private long dt;
+
+    public long getDt() {
+        return dt * 1000;
+    }
+
+    public void setDt(long dt) {
+        this.dt = dt;
+    }
 
     public Sys getSys() {
         return sys;
