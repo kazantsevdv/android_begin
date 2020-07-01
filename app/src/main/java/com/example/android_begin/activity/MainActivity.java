@@ -1,7 +1,13 @@
 package com.example.android_begin.activity;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,6 +23,8 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.android_begin.BateryReceiver;
+import com.example.android_begin.NetworkReceiver;
 import com.example.android_begin.R;
 import com.example.android_begin.ShPref;
 import com.example.android_begin.dialog.CityAddDialog;
@@ -28,6 +36,8 @@ import java.util.Objects;
 
 
 public class MainActivity extends BaseActyvity implements CityAddDialog.AddButtonListener {
+    private BroadcastReceiver airplaneReceiver = new NetworkReceiver();
+    private BroadcastReceiver batReceiver = new BateryReceiver();
 
     private AppBarConfiguration appBarConfiguration;
 
@@ -55,8 +65,10 @@ public class MainActivity extends BaseActyvity implements CityAddDialog.AddButto
                 ft.commit();
             }
         }
+        registerReceiver(airplaneReceiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
+        registerReceiver(batReceiver, new IntentFilter(Intent.ACTION_BATTERY_LOW));
+        initNotificationChannel();
     }
-
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -90,11 +102,30 @@ public class MainActivity extends BaseActyvity implements CityAddDialog.AddButto
     public void onAddButtonClicked(String text) {
         CitySelectionFragment fragment = null;
         Fragment navHostFragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
-            if (navHostFragment != null) {
-                fragment = (CitySelectionFragment) navHostFragment.getChildFragmentManager().getFragments().get(0);
-            }
+        if (navHostFragment != null) {
+            fragment = (CitySelectionFragment) navHostFragment.getChildFragmentManager().getFragments().get(0);
+        }
         if (fragment != null) {
             fragment.AddCity(text);
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(airplaneReceiver);
+        unregisterReceiver(batReceiver);
+    }
+
+    private void initNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            int importance = NotificationManager.IMPORTANCE_LOW;
+            NotificationChannel channel = new NotificationChannel("2", getString(R.string.notifications), importance);
+            if (notificationManager != null) {
+                notificationManager.createNotificationChannel(channel);
+            }
+        }
+    }
+
 }

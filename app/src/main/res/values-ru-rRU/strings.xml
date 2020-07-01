@@ -37,4 +37,8 @@
     <string name="get_weather">Получение погоды</string>
     <string name="no_data_click_add">нет данных, нажми кнопку добавить</string>
     <string name="no_data">Нет данных</string>
+    <string name="low_bat">Низкий уровень заряда</string>
+    <string name="no_network">"Нет сети"</string>
+    <string name="network_connected">"Подключение к сети"</string>
+    <string name="notifications">Уведомлениия</string>
 </resources>
