@@ -25,6 +25,6 @@ public class ShPref {
 
     public static String getCurCity(Context context) {
         SharedPreferences sharedPref = context.getSharedPreferences(Preff, MODE_PRIVATE);
-        return sharedPref.getString(CURPOS, "Moscow");
+        return sharedPref.getString(CURPOS, "");
     }
 }

@@ -57,4 +57,7 @@
     </string-array>
     <string name="network_connected">network connected</string>
     <string name="notifications">Notifications</string>
+    <string name="my_location">My location</string>
+    <string name="map">Map</string>
+    <string name="title_activity_maps" translatable="false">Map</string>
 </resources>
