@@ -66,7 +66,8 @@ public class WeatherFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        cityName = requireArguments().getString(CITY_NAME, "");
+        cityName = requireArguments().getString(CITY_NAME, getString(R.string.current_location));
+        if (cityName.equals("")) cityName = getString(R.string.current_location);
 
     }
 
@@ -85,7 +86,7 @@ public class WeatherFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initViews(view);
-        if (!cityName.equals(""))
+        if (!cityName.equals(getString(R.string.current_location)))
             loadWeatherData(cityName);
         else
 
@@ -95,7 +96,7 @@ public class WeatherFragment extends Fragment {
     private void initViews(View view) {
         refresh = view.findViewById(R.id.refresh);
         refresh.setOnRefreshListener(() -> {
-            if (!cityName.equals(""))
+            if (!cityName.equals(getString(R.string.current_location)))
                 loadWeatherData(cityName);
             else
                 loadWeatherDataByLocations();
