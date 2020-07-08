@@ -41,4 +41,7 @@
     <string name="no_network">"Нет сети"</string>
     <string name="network_connected">"Подключение к сети"</string>
     <string name="notifications">Уведомлениия</string>
+    <string name="my_location">Мое местоположение</string>
+    <string name="map">Карта</string>
+    <string name="current_location">Текущее местоположение</string>
 </resources>

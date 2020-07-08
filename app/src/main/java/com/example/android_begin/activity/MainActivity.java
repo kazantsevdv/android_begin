@@ -36,6 +36,7 @@ import java.util.Objects;
 
 
 public class MainActivity extends BaseActyvity implements CityAddDialog.AddButtonListener {
+public static final int LOCATION_PERMISSION_REQUEST_CODE = 21454;
     private BroadcastReceiver airplaneReceiver = new NetworkReceiver();
     private BroadcastReceiver batReceiver = new BateryReceiver();
 
@@ -78,23 +79,23 @@ public class MainActivity extends BaseActyvity implements CityAddDialog.AddButto
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
+        //getMenuInflater().inflate(R.menu.menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch (item.getItemId()) {
-            case R.id.navigation_settings:
-                Intent intentSet = new Intent(this, SettingsActivity.class);
-                startActivity(intentSet);
-                return true;
-            case R.id.navigation_info:
-                Intent intentInfo = new Intent(this, InfoActivity.class);
-                startActivity(intentInfo);
-                return true;
-        }
+//        switch (item.getItemId()) {
+//            case R.id.navigation_settings:
+//                Intent intentSet = new Intent(this, SettingsActivity.class);
+//                startActivity(intentSet);
+//                return true;
+//            case R.id.navigation_info:
+//                Intent intentInfo = new Intent(this, InfoActivity.class);
+//                startActivity(intentInfo);
+//                return true;
+//        }
         return super.onOptionsItemSelected(item);
     }
 

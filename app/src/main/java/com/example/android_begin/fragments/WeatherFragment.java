@@ -1,5 +1,9 @@
 package com.example.android_begin.fragments;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -22,12 +27,17 @@ import com.example.android_begin.room.WeatherData;
 import com.example.android_begin.view.TemperatureView;
 import com.squareup.picasso.Picasso;
 
+import java.util.Objects;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
+import static android.content.Context.LOCATION_SERVICE;
+
 public class WeatherFragment extends Fragment {
     public static final String CITY_NAME = "city_name";
+    public static final int LOCATION_PERMISSION_REQUEST_CODE = 21454;
     private SwipeRefreshLayout refresh;
     private TextView humidity;
     private TextView temperature;
@@ -56,19 +66,42 @@ public class WeatherFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        cityName = requireArguments().getString(CITY_NAME, "");
+        cityName = requireArguments().getString(CITY_NAME, getString(R.string.current_location));
+        if (cityName.equals("")) cityName = getString(R.string.current_location);
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                loadWeatherDataByLocations();
+            }
+            showEr();
+        }
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initViews(view);
-        loadWeatherData(cityName);
+        if (!cityName.equals(getString(R.string.current_location)))
+            loadWeatherData(cityName);
+        else
+
+            loadWeatherDataByLocations();
     }
 
     private void initViews(View view) {
         refresh = view.findViewById(R.id.refresh);
-        refresh.setOnRefreshListener(() -> loadWeatherData(cityName));
+        refresh.setOnRefreshListener(() -> {
+            if (!cityName.equals(getString(R.string.current_location)))
+                loadWeatherData(cityName);
+            else
+                loadWeatherDataByLocations();
+
+        });
         city = view.findViewById(R.id.tv_city);
         wind = view.findViewById(R.id.tv_wind);
         humidity = view.findViewById(R.id.tv_humidity);
@@ -79,6 +112,52 @@ public class WeatherFragment extends Fragment {
         errView.setVisibility(View.GONE);
         temperatureView = view.findViewById(R.id.tv_view);
         imageView = view.findViewById(R.id.imageView3);
+    }
+
+    void loadWeatherDataByLocations() {
+        boolean loadRez = false;
+        LocationManager mLocManager = (LocationManager) requireActivity().getSystemService(LOCATION_SERVICE);
+
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
+
+        } else {
+            Location loc = Objects.requireNonNull(mLocManager).getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (loc != null) {
+                loadRez = true;
+                OpenWeatherRepo.getApiService().loadWeatherByLocations(loc.getLatitude(), loc.getLongitude())
+                        .subscribeOn(Schedulers.io())
+                        .map(weatherRequest -> new ParsData(App.instance).getWeatherData(weatherRequest))
+                        .doOnSuccess(weatherData -> App.instance.getDatabase().weatherDAO().insert(weatherData))
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSubscribe(disposable -> refresh.setRefreshing(true))
+                        .doFinally(() -> refresh.setRefreshing(false))
+                        .subscribe(new DisposableSingleObserver<WeatherData>() {
+                                       @Override
+                                       public void onSuccess(WeatherData weatherData) {
+                                           content.setVisibility(View.VISIBLE);
+                                           errView.setVisibility(View.GONE);
+                                           fillView(weatherData);
+                                       }
+
+                                       @Override
+                                       public void onError(Throwable e) {
+                                           showEr();
+                                       }
+                                   }
+                        );
+            }
+
+            if (!loadRez) {
+                showEr();
+            }
+        }
+    }
+
+    private void showEr() {
+        refresh.setRefreshing(false);
+        content.setVisibility(View.GONE);
+        errView.setVisibility(View.VISIBLE);
     }
 
     void loadWeatherData(final String city) {

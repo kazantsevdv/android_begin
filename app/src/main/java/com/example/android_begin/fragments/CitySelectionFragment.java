@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -18,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.android_begin.App;
 import com.example.android_begin.R;
 import com.example.android_begin.ShPref;
+import com.example.android_begin.activity.MapsActivity;
 import com.example.android_begin.activity.WeatherActivity;
 import com.example.android_begin.adapter.CityAdapter;
 import com.example.android_begin.dialog.CityAddDialog;
@@ -40,6 +44,12 @@ public class CitySelectionFragment extends Fragment {
     private View view;
     private Disposable disposable;
     private FrameLayout emptyView;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+    }
 
     @Nullable
     @Override
@@ -68,15 +78,37 @@ public class CitySelectionFragment extends Fragment {
         getAllCity();
     }
 
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.menu, menu);
+        //super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.my_location) {
+            currentCity = "";
+            showWeather();
+            return true;
+        }
+        if (item.getItemId() == R.id.map) {
+            Intent intent = new Intent(getActivity(), MapsActivity.class);
+            //intent.putExtra(CONTAINER, currentCity);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private void getAllCity() {
         disposable = App.instance.getDatabase().cityDAO().getAll()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(citys -> {
-                            if (citys.size() == 0)
-                                emptyView.setVisibility(View.VISIBLE);
-                            else emptyView.setVisibility(View.GONE);
-                            cityAdapter.addData(citys);
+                    if (citys.size() == 0)
+                        emptyView.setVisibility(View.VISIBLE);
+                    else emptyView.setVisibility(View.GONE);
+                    cityAdapter.addData(citys);
                         }
                 );
     }
