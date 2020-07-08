@@ -105,10 +105,10 @@ public class CitySelectionFragment extends Fragment {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(citys -> {
-                    if (citys.size() == 0)
-                        emptyView.setVisibility(View.VISIBLE);
-                    else emptyView.setVisibility(View.GONE);
-                    cityAdapter.addData(citys);
+                            if (citys.size() == 0)
+                                emptyView.setVisibility(View.VISIBLE);
+                            else emptyView.setVisibility(View.GONE);
+                            cityAdapter.addData(citys);
                         }
                 );
     }
