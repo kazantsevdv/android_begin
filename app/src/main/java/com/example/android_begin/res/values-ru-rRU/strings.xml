@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Погода</string>
+    <string name="city">Город</string>
+    <string name="wind_sped">&#xf050;</string>
+    <string name="Button_select">Выбрать</string>
+    <string name="input_city">Ведите город</string>
+    <string name="wind">Ветер</string>
+    <string name="pressure">Давление</string>
+    <string name="Theme">Тема:</string>
+    <string name="_24_hour_format">24 - часовой формат</string>
+    <string name="use_gps">Использовать GPS</string>
+    <string name="send_statistics">Отправлять статистику</string>
+    <string name="No_city_set">Не выбран город</string>
+    <string-array name="theme">
+        <item>Темная</item>
+        <item>Светлая</item>
+    </string-array>
+    <string name="humidity">Влажность</string>
+    <string name="new_city">Город</string>
+    <string name="hist_">История…</string>
+    <string name="add">Добавить</string>
+    <string name="city_add">Город добавлен</string>
+    <string name="Cancel">Отменить</string>
+    <string name="title_home">Главная</string>
+    <string name="titl_settings">Настройки</string>
+    <string name="title_about">О программе</string>
+    <string name="error_get_data">Ошибка загрузки данных</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="City_Selection">Выбор города</string>
+    <string name="Hist">История</string>
+    <string name="search">Поиск</string>
+    <string name="hist">История</string>
+    <string name="error">Ошибка</string>
+    <string name="get_weather">Получение погоды</string>
+    <string name="no_data_click_add">нет данных, нажми кнопку добавить</string>
+    <string name="no_data">Нет данных</string>
+    <string name="low_bat">Низкий уровень заряда</string>
+    <string name="no_network">"Нет сети"</string>
+    <string name="network_connected">"Подключение к сети"</string>
+    <string name="notifications">Уведомлениия</string>
+    <string name="my_location">Мое местоположение</string>
+    <string name="map">Карта</string>
+    <string name="current_location">Текущее местоположение</string>
+</resources>
